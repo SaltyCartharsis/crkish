@@ -35,6 +35,27 @@ There are currently reports of a bug in v4.* caused by electromagnetic interfere
 For more details, please see this issue. We look forward to receiving any new information.
 https://github.com/foostan/crkbd/issues/265
 
+## This fork
+
+This repository is [SaltyCartharsis/crkish](https://github.com/SaltyCartharsis/crkish), a fork of [foostan/crkbd](https://github.com/foostan/crkbd). Work recorded here stays on this fork.
+
+The board under work is the corne-cherry v4 hotswap, silk rev 4.1.0, in `pcbs/corne-cherry/hotswap/`. Chocolate, classic, light, and the soldering variant are unchanged.
+
+### Done
+
+JLCPCB placement for the Kailh hotswap sockets, commit `72aa9fd`:
+
+- `jlcpcb/production_files/CPL-corne-cherry.csv` places all 46 CPG151101S11-16 sockets (LCSC C5156480) on the midpoint of the two socket pads. The previous coordinates were the key center, 3.86 mm away. Rotations are the same. The switch holes were not moved.
+- `jlcpcb/production_files/BOM-corne-cherry.csv` lists that same part on three lines: 40× 1u, 2× 1.5u (`SW1`, `rSW1`), and 4 encoder positions (`EXSW1`, `EXSW2`, `rEXSW1`, `rEXSW2`). Encoders are not populated.
+- The LCSC land pattern is about 0.26 mm wider than the pads drawn in this footprint. The placement origin is the midpoint of the pads on this board, and the contacts still fall on the 2.55 mm pads.
+- The KiCad footprint origin is still the key center, which is the center the plate uses. A new position export from KiCad will put the sockets back on the key centers. The pick-and-place file is the one that has to keep the socket center.
+- Gerbers were not regenerated. The commit changes the BOM and the CPL only.
+
+### Planned
+
+- Have a shop in the United States fabricate and assemble this cherry v4.1.0 hotswap, including sourcing the parts. One keyboard is one panel with both halves. The board is 2-layer, 1.6 mm, 1 oz copper, about 277.2 × 107.5 mm, with mousebites and no v-score. Assembly is bottom-side SMT. The USB-C connector has to be TYPE-C-31-M-13C (LCSC C2848620). The TRRS jacks are through-hole. The per-key LEDs are reverse-mount SK6812MINI-E. Vendor choice and a firm quote are still open.
+- The phone interference described above is still in the design. On this PCB the USB D+ and D− runs are about 115–119 mm from the USB-C receptacle to the 27 Ω series resistors, a quarter-wave near 635 MHz, inside the n71 phone band (617–698 MHz). The top ground pour covers roughly half of that run. The trace from the RP2040 to the TRRS jack is 89 mm on the left and 96 mm on the right, a quarter-wave near 840 MHz and 780 MHz. On the right half the top ground covers about 10% of that trace. The jack is tip = 5 V, ring = TX, sleeve = GND, so the cable between halves continues the conductor. The USB-C A and B pins of each pair are joined by about 34 mm of trace. These lengths were measured on the v4.1.0 board. The copper was left as routed, because moving those traces on this two-layer stack would shift the resonances into another phone band. Clearing the fault means a new layout with a continuous ground under a short USB pair. That respin has not been started.
+
 ## Images
 
 ### Cherry
